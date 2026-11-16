@@ -1,0 +1,462 @@
+@import "tailwindcss";
+
+/*
+  Beauty JB design tokens.
+
+  Bold, modern, editorial: white does most of the work, deep wine red is trim
+  and emphasis, gold is a 1px hairline accent only. Every color in the site
+  comes from these variables. Components never hard-code a hex value, so the
+  whole palette swaps here (or via data-theme="blue" on <html>).
+
+  TODO: final palette. Keep src/content/theme.ts in sync (OG images, manifest).
+*/
+:root {
+  /* Base */
+  --bg: #ffffff;
+  --bg-alt: #f7f6f4;
+  --ink: #141214;
+  --ink-soft: #5a5558;
+  --line: #e7e3e0;
+
+  /* Accent: deep wine */
+  --accent: #6e1423;
+  --accent-hover: #561019;
+  --accent-tint: #f6ecee;
+
+  /* Metallics: hairlines, small icons, numerals only */
+  --gold: #b8975a;
+  --gold-soft: #d9c49a;
+  --silver: #a7a9ac;
+
+  --on-accent: #ffffff;
+  --on-ink: #f4f1ee;
+  /* Secondary text on ink sections (AA on --ink) */
+  --on-ink-soft: #b9b2b5;
+
+  --r-sm: 4px;
+  --r-pill: 999px;
+  --r-arch: 999px 999px 4px 4px;
+}
+
+/* Backup palette (client's 2nd option). Enable with data-theme="blue" on <html>. */
+[data-theme="blue"] {
+  --accent: #1b2a4a;
+  --accent-hover: #121d36;
+  --accent-tint: #eceff5;
+}
+
+/* Map tokens into Tailwind utilities (bg-accent, text-ink, border-line …). */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-alt: var(--bg-alt);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-tint: var(--accent-tint);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-silver: var(--silver);
+  --color-on-accent: var(--on-accent);
+  --color-on-ink: var(--on-ink);
+  --color-on-ink-soft: var(--on-ink-soft);
+
+  --font-display: var(--font-bodoni), "Bodoni Moda", Didot, "Times New Roman", serif;
+  --font-sans: var(--font-manrope), "Manrope", system-ui, sans-serif;
+
+  --radius-sm: var(--r-sm);
+  --radius-pill: var(--r-pill);
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: light;
+  scroll-padding-top: 6.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink-soft);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+@media (min-width: 768px) {
+  body {
+    font-size: 17px;
+  }
+}
+
+::selection {
+  background: var(--accent-tint);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* ---------- Type scale ---------- */
+@layer components {
+  .h1,
+  .h2,
+  .h3 {
+    font-family: var(--font-display);
+    color: var(--ink);
+    text-wrap: balance;
+  }
+  .h1 {
+    font-size: 44px;
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    font-weight: 600;
+  }
+  .h2 {
+    font-size: 34px;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    font-weight: 500;
+  }
+  .h3 {
+    font-size: 20px;
+    line-height: 1.25;
+    font-weight: 600;
+  }
+  @media (min-width: 768px) {
+    .h1 {
+      font-size: 60px;
+    }
+    .h2 {
+      font-size: 44px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .h1 {
+      font-size: 72px;
+      line-height: 1.02;
+    }
+    .h2 {
+      font-size: 52px;
+      line-height: 1.08;
+    }
+    .h3 {
+      font-size: 24px;
+    }
+  }
+  /* Italic emphasis word inside a headline */
+  .h1 em,
+  .h2 em,
+  .h3 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .on-ink .h1,
+  .on-ink .h2,
+  .on-ink .h3 {
+    color: var(--on-ink);
+  }
+  .on-ink .h1 em,
+  .on-ink .h2 em {
+    color: var(--gold-soft);
+  }
+
+  .lead {
+    font-size: 18px;
+    line-height: 1.6;
+  }
+  @media (min-width: 768px) {
+    .lead {
+      font-size: 20px;
+    }
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    line-height: 1.4;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .eyebrow::before {
+    content: "";
+    width: 24px;
+    height: 1px;
+    background: var(--gold);
+    flex: none;
+  }
+  .on-ink .eyebrow {
+    color: var(--gold-soft);
+  }
+
+  /* ---------- Layout ---------- */
+  .container-x {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 24px;
+  }
+  @media (min-width: 768px) {
+    .container-x {
+      padding-inline: 32px;
+    }
+  }
+  .section {
+    padding-block: 72px;
+  }
+  @media (min-width: 1024px) {
+    .section {
+      padding-block: 112px;
+    }
+  }
+
+  .on-ink {
+    background: var(--ink);
+    color: var(--on-ink-soft);
+  }
+
+  /* ---------- Buttons ---------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 48px;
+    padding: 14px 28px;
+    border-radius: var(--r-pill);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    white-space: nowrap;
+    transition:
+      background-color 200ms var(--ease-out),
+      color 200ms var(--ease-out),
+      border-color 200ms var(--ease-out);
+  }
+  .btn svg {
+    transition: transform 200ms var(--ease-out);
+  }
+  .btn:hover svg {
+    transform: translateX(3px);
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+  .btn-primary:hover {
+    background: var(--accent-hover);
+  }
+  .btn-secondary {
+    border: 1px solid var(--ink);
+    color: var(--ink);
+  }
+  .btn-secondary:hover {
+    background: var(--ink);
+    color: var(--bg);
+  }
+  .on-ink .btn-secondary {
+    border-color: var(--gold);
+    color: var(--on-ink);
+  }
+  .on-ink .btn-secondary:hover {
+    background: var(--gold);
+    color: var(--ink);
+  }
+  .btn-ghost {
+    color: var(--ink);
+    padding-inline: 12px;
+  }
+
+  /* Text link with an arrow; underline grows from the left in accent. */
+  .text-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    color: var(--ink);
+    background-image: linear-gradient(var(--accent), var(--accent));
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 1px;
+    padding-bottom: 2px;
+    transition:
+      background-size 300ms var(--ease-out),
+      color 200ms;
+  }
+  .text-link:hover {
+    background-size: 100% 1px;
+    color: var(--accent);
+  }
+  .text-link svg {
+    transition: transform 200ms var(--ease-out);
+  }
+  .text-link:hover svg {
+    transform: translateX(3px);
+  }
+  .on-ink .text-link {
+    color: var(--on-ink);
+    background-image: linear-gradient(var(--gold), var(--gold));
+  }
+  .on-ink .text-link:hover {
+    color: var(--gold-soft);
+  }
+
+  /* Body links inside prose */
+  .prose-link {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
+
+  /* ---------- Cards ---------- */
+  .card {
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+    background: var(--bg);
+    transition:
+      border-color 250ms var(--ease-out),
+      transform 250ms var(--ease-out);
+  }
+  .card-hover:hover {
+    border-color: var(--gold);
+    transform: translateY(-2px);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: var(--r-pill);
+    background: var(--accent-tint);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  /* Short centered gold rule used as a divider between sections */
+  .gold-rule {
+    display: block;
+    width: 80px;
+    height: 1px;
+    margin-inline: auto;
+    background: var(--gold);
+  }
+
+  /* Short red trim under H2s on dark sections */
+  .trim-short {
+    display: block;
+    width: 64px;
+    height: 4px;
+    background: var(--accent);
+  }
+
+  /* Arched signature frame */
+  .arch {
+    border-radius: var(--r-arch);
+    overflow: hidden;
+  }
+
+  /* Outlined oversize numeral ("35") */
+  .outline-numeral {
+    font-family: var(--font-display);
+    font-weight: 500;
+    line-height: 0.8;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--gold);
+    letter-spacing: -0.04em;
+    user-select: none;
+  }
+
+  /* Form fields */
+  .field {
+    display: block;
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 16px;
+    transition: border-color 200ms;
+  }
+  .field:hover {
+    border-color: var(--silver);
+  }
+  .field:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 1px;
+    border-color: var(--gold);
+  }
+  .field[aria-invalid="true"] {
+    border-color: var(--accent);
+  }
+  .label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+}
+
+/* ---------- Reveal on scroll ---------- */
+/* Only hide content once JS has confirmed it can reveal it again. */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 400ms var(--ease-out),
+    transform 400ms var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .card-hover:hover {
+    transform: none;
+  }
+}
+
+/* Hide scrollbar on the mobile gallery strip, keep it scrollable */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Grid items default to min-width:auto, which lets scrollable rows (tabs,
+   filter chips) stretch a column past the viewport on phones. */
+.grid > * {
+  min-width: 0;
+}

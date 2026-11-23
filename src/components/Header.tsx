@@ -2,84 +2,62 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
 import { Phone } from "lucide-react";
 import { nav, phone, telHref } from "@/lib/site";
 import { BookButton } from "./Button";
 import { Logo } from "./Logo";
 import { MobileMenu } from "./MobileMenu";
-import { TrimBar } from "./TrimBar";
 
 export function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(href);
 }
 
+/*
+  Sticky header, Stevie Cain pattern: beige glass bar, logo left, links
+  centre, phone + Book pills right. On a phone: logo, Book, menu.
+*/
 export function Header() {
   const pathname = usePathname();
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   return (
-    <div className="sticky top-0 z-50">
-      <TrimBar />
-      <header
-        className={`border-b bg-bg/92 backdrop-blur-md transition-colors duration-300 ${
-          scrolled ? "border-line" : "border-transparent"
-        }`}
-      >
-        <div className="container-x flex h-[68px] items-center justify-between gap-6 lg:h-[80px]">
-          <Link href="/" aria-label="Beauty JB home" className="shrink-0">
-            <Logo />
-          </Link>
+    <header className="sticky top-0 z-50 border-b border-line/70 bg-bg/85 backdrop-blur-md">
+      <div className="container-x flex h-20 items-center justify-between gap-4 md:h-24">
+        <Link href="/" aria-label="Beauty JB home" className="shrink-0 rounded-lg">
+          <Logo />
+        </Link>
 
-          <nav aria-label="Main" className="hidden lg:block">
-            <ul className="flex items-center gap-7 xl:gap-9">
-              {nav.map((item) => {
-                const active = isActive(pathname, item.href);
-                return (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      aria-current={active ? "page" : undefined}
-                      className={`relative py-2 text-[15px] font-medium transition-colors hover:text-accent ${
-                        active ? "text-ink" : "text-ink-soft"
-                      }`}
-                    >
-                      {item.label}
-                      <span
-                        aria-hidden
-                        className={`absolute inset-x-0 -bottom-0.5 h-0.5 origin-left bg-accent transition-transform duration-300 ${
-                          active ? "scale-x-100" : "scale-x-0"
-                        }`}
-                      />
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
+        <nav aria-label="Main" className="hidden lg:block">
+          <ul className="flex items-center gap-1">
+            {nav.map((item) => {
+              const active = isActive(pathname, item.href);
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    aria-current={active ? "page" : undefined}
+                    className={`rounded-full px-3.5 py-2 text-[15px] font-semibold transition-colors ${
+                      active ? "bg-accent-tint text-accent" : "text-ink hover:text-accent"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
 
-          <div className="flex items-center gap-3">
-            {phone && (
-              <a
-                href={telHref(phone)}
-                className="hidden items-center gap-2 rounded-pill border border-line px-4 py-2.5 text-[14px] font-semibold text-ink transition-colors hover:border-gold xl:inline-flex"
-              >
-                <Phone aria-hidden size={16} strokeWidth={1.5} className="text-accent" />
-                {phone}
-              </a>
-            )}
-            <BookButton className="hidden !min-h-11 !px-6 !py-3 sm:inline-flex" arrow={false} />
-            <MobileMenu />
-          </div>
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          {phone && (
+            <a href={telHref(phone)} className="btn btn-secondary btn-sm !hidden !px-3 sm:!inline-flex md:!px-4" aria-label={`Call ${phone}`}>
+              <Phone aria-hidden size={18} strokeWidth={2} />
+              <span className="hidden xl:inline">{phone}</span>
+            </a>
+          )}
+          <BookButton label="Book Now" className="btn-sm" arrow={false} />
+          <MobileMenu />
         </div>
-      </header>
-    </div>
+      </div>
+    </header>
   );
 }

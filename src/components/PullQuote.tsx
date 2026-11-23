@@ -1,14 +1,12 @@
-/** Large italic Bodoni quote with oversized gold quotation marks. */
+import { Quote } from "lucide-react";
+
+/** Centered quote on a surface card. */
 export function PullQuote({ children, cite, className = "" }: { children: React.ReactNode; cite?: string; className?: string }) {
   return (
-    <figure className={`relative mx-auto max-w-[860px] text-center ${className}`} data-reveal>
-      <span aria-hidden className="block font-display text-[96px] leading-[0.6] text-gold lg:text-[120px]">
-        &ldquo;
-      </span>
-      <blockquote className="mt-2 font-display text-[30px] italic leading-[1.2] text-ink text-balance lg:text-[44px]">
-        {children}
-      </blockquote>
-      {cite && <figcaption className="mt-6 text-[14px] font-semibold uppercase tracking-[0.2em] text-ink-soft">{cite}</figcaption>}
+    <figure className={`card mx-auto max-w-[860px] px-6 py-10 text-center sm:px-12 sm:py-14 ${className}`} data-reveal>
+      <Quote aria-hidden size={32} className="mx-auto fill-accent text-accent" />
+      <blockquote className="h2 mt-5 !text-[1.75rem] sm:!text-[2.25rem]">{children}</blockquote>
+      {cite && <figcaption className="eyebrow mt-6 justify-center">{cite}</figcaption>}
     </figure>
   );
 }

@@ -11,13 +11,13 @@ export function FAQ({ items }: { items: FaqItem[] }) {
   if (items.length === 0) return null;
 
   return (
-    <div className="border-t border-gold/60">
+    <div className="border-t border-line">
       {items.map((item, i) => {
         const isOpen = open === i;
         const btn = `${base}-q${i}`;
         const panel = `${base}-a${i}`;
         return (
-          <div key={item.q} className="border-b border-gold/60">
+          <div key={item.q} className="border-b border-line">
             <h3>
               <button
                 id={btn}

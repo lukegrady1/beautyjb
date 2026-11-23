@@ -36,14 +36,14 @@ export default function ServicesPage() {
           <h2 id="menu-heading" className="sr-only">
             Service menu
           </h2>
-          <ul className="border-t border-gold/60">
+          <ul className="border-t border-line">
             {services.map((s, i) => (
               <ServiceRow key={s.slug} service={s} index={i} />
             ))}
           </ul>
           <p className="mt-8 text-[15px]">
             Every service follows the same four steps.{" "}
-            <TextLink href="/experience/">See the experience</TextLink>
+            <TextLink href="/about/#experience">See the experience</TextLink>
           </p>
         </div>
       </section>

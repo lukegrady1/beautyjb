@@ -36,10 +36,9 @@ export function PhotoPlaceholder({ label, alt }: { label: string; alt?: string }
     <div
       role="img"
       aria-label={alt ? `${label}. ${alt}` : label}
-      className="absolute inset-0 flex items-center justify-center p-6 text-center"
-      style={{ background: "color-mix(in srgb, var(--line) 70%, var(--silver))" }}
+      className="placeholder-tile absolute inset-0 flex items-center justify-center p-6 text-center"
     >
-      <span className="max-w-[18ch] text-[12px] font-semibold uppercase tracking-[0.16em] text-ink/70">{label}</span>
+      <span className="max-w-[18ch] text-[12px] font-semibold uppercase tracking-[0.16em] text-ink/45">{label}</span>
     </div>
   );
 }

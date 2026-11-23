@@ -29,7 +29,8 @@ export const addressLines = hasAddress
   ? [a.street, `${city}${region ? `, ${region}` : ""}${isSet(a.postal) ? ` ${a.postal}` : ""}`]
   : [];
 
-export const mapQuery = hasAddress ? encodeURIComponent(`${site.name}, ${addressLines.join(", ")}`) : null;
+// Address only: Google doesn't know "Beauty JB" as a place yet, and the name can throw the pin off.
+export const mapQuery = hasAddress ? encodeURIComponent(addressLines.join(", ")) : null;
 export const directionsUrl = mapQuery ? `https://www.google.com/maps/dir/?api=1&destination=${mapQuery}` : null;
 
 /** Primary booking target used by every "Book" button on the site. */
@@ -46,10 +47,9 @@ export const socialLinks = (
 ).filter(([, url]) => isSet(url)) as unknown as [string, string][];
 
 export const nav = [
-  { href: "/about/", label: "About" },
-  { href: "/experience/", label: "Experience" },
   { href: "/services/", label: "Services" },
   { href: "/weddings/", label: "Weddings" },
+  { href: "/about/", label: "About" },
   { href: "/gallery/", label: "Gallery" },
   { href: "/contact/", label: "Contact" },
 ];

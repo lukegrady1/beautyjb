@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { CTABand } from "@/components/CTABand";
 import { GalleryGrid } from "@/components/GalleryGrid";
 import { PageHero } from "@/components/PageHero";
-import { gallery, galleryCategories } from "@/content/gallery";
+import { gallery } from "@/content/gallery";
 import { pageMetadata } from "@/lib/seo";
 import { inCity } from "@/lib/site";
 
@@ -23,7 +23,7 @@ export default function GalleryPage() {
       />
       <section aria-label="Gallery images" className="pb-20 lg:pb-28">
         <div className="container-x">
-          <GalleryGrid items={gallery} filters={galleryCategories} />
+          <GalleryGrid items={gallery} />
         </div>
       </section>
       <CTABand />

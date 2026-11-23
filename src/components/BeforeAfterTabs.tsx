@@ -44,7 +44,7 @@ export function BeforeAfterTabs({ tabs: list }: { tabs: BeforeAfterTab[] }) {
             onClick={() => setActive(i)}
             onKeyDown={(e) => onKey(e, i)}
             className={`shrink-0 rounded-pill border px-5 py-2.5 text-[14px] font-semibold transition-colors ${
-              i === active ? "border-accent bg-accent text-on-accent" : "border-line text-ink hover:border-gold"
+              i === active ? "border-accent bg-accent text-on-accent" : "border-line text-ink hover:border-accent"
             }`}
           >
             {svc.name}

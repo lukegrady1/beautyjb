@@ -28,7 +28,7 @@ export function GalleryGrid({ items, filters }: { items: Item[]; filters?: Filte
               aria-pressed={filter === f.id}
               onClick={() => setFilter(f.id)}
               className={`shrink-0 rounded-pill border px-5 py-2.5 text-[14px] font-semibold transition-colors ${
-                filter === f.id ? "border-accent bg-accent text-on-accent" : "border-line text-ink hover:border-gold"
+                filter === f.id ? "border-accent bg-accent text-on-accent" : "border-line text-ink hover:border-accent"
               }`}
             >
               {f.label}

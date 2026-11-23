@@ -7,7 +7,7 @@ export function PackageCard({ pkg, featured, style }: { pkg: WeddingPackage; fea
   const includes = pkg.includes.filter(isSet);
   const price = site.showPrices && isSet(pkg.price) ? pkg.price : null;
   return (
-    <div className={`card flex flex-col p-7 lg:p-8 ${featured ? "border-gold" : ""}`} data-reveal style={style}>
+    <div className={`card flex flex-col p-7 lg:p-8 ${featured ? "!border-accent ring-1 ring-accent" : ""}`} data-reveal style={style}>
       <div className="flex items-start justify-between gap-3">
         <h3 className="h3 !text-[26px]">{pkg.name}</h3>
         {pkg.refreshments && (
@@ -20,7 +20,7 @@ export function PackageCard({ pkg, featured, style }: { pkg: WeddingPackage; fea
         {isSet(pkg.partySize) && (
           <div className="flex items-center gap-3">
             <dt>
-              <Users aria-hidden size={18} strokeWidth={1.5} className="text-gold" />
+              <Users aria-hidden size={18} strokeWidth={1.5} className="text-accent" />
               <span className="sr-only">Party size</span>
             </dt>
             <dd className="text-ink">{pkg.partySize === "1" ? "The bride" : pkg.partySize}</dd>
@@ -28,7 +28,7 @@ export function PackageCard({ pkg, featured, style }: { pkg: WeddingPackage; fea
         )}
         <div className="flex items-center gap-3">
           <dt>
-            <MapPin aria-hidden size={18} strokeWidth={1.5} className="text-gold" />
+            <MapPin aria-hidden size={18} strokeWidth={1.5} className="text-accent" />
             <span className="sr-only">Location</span>
           </dt>
           <dd className="text-ink">{pkg.location}</dd>

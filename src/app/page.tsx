@@ -1,26 +1,26 @@
 import type { Metadata } from "next";
-import { Clock, Heart, Palette, Scissors, Sparkles } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, Clock, Heart, Palette, Scissors, Sparkles } from "lucide-react";
 import { ArchFrame } from "@/components/ArchFrame";
-import { BookButton, Button, TextLink } from "@/components/Button";
+import { BookButton, Button } from "@/components/Button";
 import { CTABand } from "@/components/CTABand";
 import { FeatureCard } from "@/components/FeatureCard";
+import { GallerySlider } from "@/components/GallerySlider";
 import { JsonLd } from "@/components/JsonLd";
-import { OutlineNumeral } from "@/components/OutlineNumeral";
 import { Photo } from "@/components/Photo";
 import { ProcessStepsCompact } from "@/components/ProcessSteps";
-import { PullQuote } from "@/components/PullQuote";
 import { Reviews } from "@/components/Reviews";
 import { delay } from "@/lib/reveal";
 import { ServiceCard } from "@/components/ServiceCard";
-import { StatBand } from "@/components/StatBand";
 import { StudioDetails, hasStudioDetails } from "@/components/StudioDetails";
-import { gallery } from "@/content/gallery";
+import { featuredGallery } from "@/content/gallery";
+import { ig } from "@/content/instagram";
 import { photos } from "@/content/photos";
 import { services } from "@/content/services";
 import { site } from "@/content/site.config";
 import { websiteSchema } from "@/lib/schema";
 import { pageMetadata } from "@/lib/seo";
-import { city, inCity, inCityState } from "@/lib/site";
+import { inCity, inCityState } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
   title: `${site.name} | Hair Color, Cuts & Bridal Hair${inCityState}`,
@@ -29,219 +29,222 @@ export const metadata: Metadata = pageMetadata({
   absolute: true,
 });
 
+/* Section heading + optional link on the right: the shared Stevie rhythm. */
+function SectionHead({
+  id,
+  eyebrow,
+  title,
+  link,
+}: {
+  id: string;
+  eyebrow: string;
+  title: React.ReactNode;
+  link?: { href: string; label: string };
+}) {
+  return (
+    <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between" data-reveal>
+      <div className="max-w-2xl">
+        <p className="eyebrow">{eyebrow}</p>
+        <h2 id={id} className="h2 mt-3">
+          {title}
+        </h2>
+      </div>
+      {link && (
+        <Link href={link.href} className="text-link shrink-0">
+          {link.label}
+          <ArrowRight aria-hidden size={18} strokeWidth={2} />
+        </Link>
+      )}
+    </div>
+  );
+}
+
 export default function Home() {
   return (
     <>
       <JsonLd data={websiteSchema()} />
 
-      {/* 1. Hero */}
-      <section className="pt-8 pb-16 lg:pt-16 lg:pb-28">
-        <div className="container-x grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
-          <div className="lg:col-span-7">
-            <p className="eyebrow">Hair Designer{city ? ` · ${city}` : ""}</p>
-            <h1 className="h1 mt-5">Hair color, cuts &amp; bridal hair{inCity}</h1>
-            <p className="mt-6 font-display text-[24px] italic leading-[1.3] text-accent lg:text-[30px]">
-              &ldquo;We choose our clients as much as they choose us.&rdquo;
+      {/* 1. Hero: text left, rounded photo right */}
+      <section className="relative overflow-hidden">
+        <div className="container-x grid gap-10 pt-10 pb-16 sm:pt-16 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-14 lg:pt-20 lg:pb-24">
+          <div>
+            <h1 className="h1">
+              Hair Color, Cuts &amp; Bridal Hair{inCityState && <em>{inCityState}</em>}
+            </h1>
+            <p className="lead mt-5 max-w-lg">
+              Custom color, face-shaped cuts and wedding-day hair with {site.owner}, a hair designer who still loves every day
+              behind the chair.
             </p>
-            <p className="lead mt-6 max-w-[560px]">
-              {site.yearsExperience} years of artistry, a studio that runs on your time, and an experience you&rsquo;ll want to come back to.
-            </p>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <BookButton />
-              <Button href="/weddings/" variant="secondary">
-                Wedding Hair
-              </Button>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <BookButton className="w-full sm:w-auto sm:min-w-[15rem]" />
             </div>
-            <p className="mt-7 flex items-center gap-2 text-[14px] font-medium">
-              <Clock aria-hidden size={16} strokeWidth={1.5} className="shrink-0 text-gold" />
+            <p className="mt-5 flex items-center gap-2 text-sm">
+              <Clock aria-hidden size={16} className="shrink-0 text-accent" />
               Color, highlights &amp; cut in about 1 hr 45 min · Dry cutting specialist
             </p>
           </div>
-          <div className="order-first mx-auto w-full max-w-[290px] sm:max-w-[400px] lg:order-none lg:col-span-5 lg:max-w-none">
-            <ArchFrame
-              photo={photos.hero}
-              priority
-              chip={
-                <>
-                  <span className="font-display text-[22px] font-semibold text-accent">{site.yearsExperience}</span> years behind the chair
-                </>
-              }
-            />
+          <div className="mx-auto w-full max-w-[17.5rem] sm:max-w-md lg:max-w-none">
+            <ArchFrame photo={photos.hero} priority />
           </div>
         </div>
       </section>
 
-      {/* 2. Brand statement */}
-      <section aria-labelledby="why-heading" className="section bg-bg-alt">
-        <div className="container-x">
-          <h2 id="why-heading" className="sr-only">
-            Why clients choose Beauty JB
-          </h2>
-          <PullQuote>In a sea of salons, why do they pick us?</PullQuote>
-          <ul className="mx-auto mt-14 grid max-w-[960px] gap-8 text-center sm:grid-cols-3 sm:gap-0">
-            {[`${site.yearsExperience} years of artistry`, "Cuts designed for your face", "Your time, respected"].map((t, i) => (
-              <li
-                key={t}
-                className="font-display text-[22px] font-semibold text-ink sm:border-l sm:border-gold sm:px-6 sm:first:border-l-0"
-                data-reveal
-                style={delay(i)}
-              >
-                {t}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      {/* 3. About teaser */}
-      <section aria-labelledby="about-heading" className="section">
-        <div className="container-x grid gap-12 lg:grid-cols-12 lg:gap-16">
-          <div className="lg:col-span-5" data-reveal>
-            <Photo photo={photos.portrait} className="aspect-[4/5] rounded-sm" sizes="(min-width: 1024px) 460px, 100vw" />
-          </div>
-          <div className="relative lg:col-span-7">
-            <OutlineNumeral caption={false} className="pointer-events-none -mt-4 mb-2 flex justify-end opacity-80 sm:absolute sm:-top-24 sm:right-0 sm:m-0 sm:block sm:opacity-60 lg:-top-28" />
-            <div className="relative">
-              <p className="eyebrow" data-reveal>
-                Meet Jennifer
-              </p>
-              <h2 id="about-heading" className="h2 mt-4 max-w-[560px]" data-reveal>
-                Hair is my <em>artistry</em> and my passion.
-              </h2>
-              <div className="mt-6 max-w-[580px] space-y-4" data-reveal>
-                <p>
-                  I&rsquo;ve spent {site.yearsExperience} years in this industry, and I still love every day of it. Color is my
-                  favorite: highlights, lowlights and enhancing the natural beauty you already have.
-                </p>
-                <p>
-                  Every cut is customized to your face shape and personality. I love changing someone&rsquo;s look and watching
-                  them walk out feeling good, and I want you to feel like you know me before you ever sit in my chair.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="container-x mt-14 grid gap-5 md:grid-cols-3">
-          <FeatureCard icon={Palette} title="Color is my favorite" style={delay(0)}>
-            Highlights, lowlights and custom color that enhances what you were born with.
-          </FeatureCard>
-          <FeatureCard icon={Scissors} title="Cut for your face shape" style={delay(1)}>
-            Razor and texture cuts, designed around you and cut dry so they fall right.
-          </FeatureCard>
-          <FeatureCard icon={Sparkles} title="Natural beauty, enhanced" style={delay(2)}>
-            Hair that looks like you on your best day, not like everyone else.
-          </FeatureCard>
-        </div>
-        <div className="container-x mt-10">
-          <TextLink href="/about/">More about Jennifer</TextLink>
-        </div>
-      </section>
-
-      {/* 4. Experience preview (ink) */}
-      <section aria-labelledby="exp-heading" className="section on-ink">
-        <div className="container-x">
-          <div className="max-w-[760px]" data-reveal>
-            <p className="eyebrow">The Experience</p>
-            <h2 id="exp-heading" className="h2 mt-4">
-              Four steps. <em>No</em> wasted time.
-            </h2>
-            <span className="trim-short mt-6" aria-hidden />
-          </div>
-          <div className="mt-14">
-            <ProcessStepsCompact />
-          </div>
-          <div className="mt-14 flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
-            <StatBand stat="~1 hr 45 min" onInk>
-              for color, highlights &amp; cut
-            </StatBand>
-            <TextLink href="/experience/">See how it works</TextLink>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. Services preview */}
+      {/* 2. Services */}
       <section aria-labelledby="services-heading" className="section">
         <div className="container-x">
-          <div className="max-w-[760px]" data-reveal>
-            <p className="eyebrow">Services</p>
-            <h2 id="services-heading" className="h2 mt-4">
-              Color, cuts &amp; <em>everything</em> in between.
-            </h2>
-          </div>
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <SectionHead
+            id="services-heading"
+            eyebrow="Services"
+            title="Color, cuts, and everything in between."
+            link={{ href: "/services/", label: "All services" }}
+          />
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {services.map((s, i) => (
-              <ServiceCard key={s.slug} service={s} style={delay(i)} />
+              <ServiceCard key={s.slug} service={s} withPhoto={false} style={delay(i)} />
             ))}
           </div>
-          <p className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
-            <span>Don&rsquo;t see it? Ask during your consultation.</span>
-            <TextLink href="/services/">All services</TextLink>
-          </p>
         </div>
       </section>
 
-      {/* 6. Weddings feature */}
-      <section aria-labelledby="weddings-heading" className="section bg-accent-tint">
-        <div className="container-x grid items-center gap-12 lg:grid-cols-12 lg:gap-20">
-          <div className="mx-auto w-full max-w-[380px] lg:col-span-5 lg:max-w-none">
-            <ArchFrame photo={photos.weddingFeature} sizes="(min-width: 1024px) 420px, 80vw" />
+      {/* 3. Weddings (surface band) */}
+      <section aria-labelledby="weddings-heading" className="section bg-bg-alt">
+        <div className="container-x grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
+          <div className="grid grid-cols-2 gap-3 sm:gap-4" data-reveal>
+            <Photo
+              photo={ig.bridalBunWithVeil}
+              className="placeholder-tile aspect-[3/4] rounded-[1.5rem] border border-line shadow-lift"
+              sizes="(min-width: 1024px) 280px, 45vw"
+            />
+            <Photo
+              photo={ig.halfUpCurlsPearlPins}
+              className="placeholder-tile mt-10 aspect-[3/4] rounded-[1.5rem] border border-line shadow-lift"
+              sizes="(min-width: 1024px) 280px, 45vw"
+            />
           </div>
-          <div className="lg:col-span-7" data-reveal>
+          <div data-reveal>
             <p className="eyebrow">Weddings</p>
-            <h2 id="weddings-heading" className="h2 mt-4">
-              Bridal hair for the <em>whole</em> party.
+            <h2 id="weddings-heading" className="h2 mt-3">
+              Bridal hair for the whole party.
             </h2>
-            <p className="lead mt-6 max-w-[520px]">Updos, blowouts and makeup, in the studio or at your venue.</p>
-            <div className="mt-9">
+            <p className="lead mt-5 max-w-lg">Updos, blowouts and makeup, in the studio or at your venue.</p>
+            <ul className="mt-6 space-y-2 text-ink">
+              {["Bride, bridesmaids and moms", "Trials before the big day", "Everyone ready on time"].map((t) => (
+                <li key={t} className="flex items-center gap-3">
+                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-accent-light text-accent">
+                    <Heart aria-hidden size={13} fill="currentColor" />
+                  </span>
+                  {t}
+                </li>
+              ))}
+            </ul>
+            <div className="mt-8">
               <Button href="/weddings/" arrow>
                 Plan Your Wedding Hair
               </Button>
             </div>
-            <p className="mt-8 flex items-center gap-2 text-[14px] font-medium">
-              <Heart aria-hidden size={16} strokeWidth={1.5} className="text-accent" />
-              Bride, bridesmaids, moms: everyone ready on time.
-            </p>
           </div>
         </div>
       </section>
 
-      {/* 7. Gallery strip */}
-      <section aria-labelledby="gallery-heading" className="section">
-        <div className="container-x">
-          <div className="max-w-[760px]" data-reveal>
-            <p className="eyebrow">Recent Work</p>
-            <h2 id="gallery-heading" className="h2 mt-4">
-              From the <em>chair.</em>
+      {/* 4. About teaser: portrait left, quote + values right */}
+      <section aria-labelledby="about-heading" className="section">
+        <div className="container-x grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-x-16 lg:gap-y-0">
+          <div className="lg:col-start-2 lg:row-start-1 lg:self-end" data-reveal>
+            <p className="eyebrow">Meet Jennifer</p>
+            <h2 id="about-heading" className="h2 mt-3">
+              &ldquo;We choose our clients as much as they choose us.&rdquo;
             </h2>
           </div>
-          <ul className="no-scrollbar -mx-6 mt-12 flex snap-x snap-mandatory gap-3 overflow-x-auto px-6 sm:mx-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible sm:px-0">
-            {gallery.slice(0, 6).map((g, i) => (
-              <li key={g.label} className="w-[72%] shrink-0 snap-start sm:w-auto" data-reveal style={delay(i % 3)}>
-                <Photo photo={g} className="aspect-[4/5] rounded-sm" sizes="(min-width: 640px) 33vw, 72vw" />
+
+          <div className="order-2 lg:order-none lg:col-start-1 lg:row-span-2 lg:row-start-1" data-reveal>
+            <Photo
+              photo={photos.portrait}
+              className="placeholder-tile mx-auto aspect-[4/5] w-full max-w-sm rounded-[2rem] border border-line shadow-lift lg:max-w-none"
+              sizes="(min-width: 1024px) 40vw, 24rem"
+            />
+          </div>
+
+          <div className="order-3 lg:order-none lg:col-start-2 lg:row-start-2 lg:self-start" data-reveal>
+            <div className="space-y-4 text-[1.05rem] leading-relaxed lg:mt-6">
+              <p>
+                I&rsquo;ve spent {site.yearsExperience} years in this industry, and I still love every day of it. Color is my
+                favorite: highlights, lowlights and enhancing the natural beauty you already have. Every cut is customized to your
+                face shape and personality.
+              </p>
+            </div>
+            <p className="mt-6 text-lg font-semibold text-ink">— {site.owner}</p>
+
+            <ul className="mt-10 grid gap-4 sm:grid-cols-3">
+              <li>
+                <FeatureCard icon={Palette} title="Color is my favorite" surface="bg-bg-alt" style={delay(0)}>
+                  Highlights, lowlights and custom color that enhances what you were born with.
+                </FeatureCard>
               </li>
-            ))}
-          </ul>
-          <div className="mt-10">
-            <TextLink href="/gallery/">See the full gallery</TextLink>
+              <li>
+                <FeatureCard icon={Scissors} title="Cut for your face" surface="bg-bg-alt" style={delay(1)}>
+                  Razor and texture cuts, cut dry so they fall right.
+                </FeatureCard>
+              </li>
+              <li>
+                <FeatureCard icon={Sparkles} title="Your time, respected" surface="bg-bg-alt" style={delay(2)}>
+                  A clear plan and no wasted time in the chair.
+                </FeatureCard>
+              </li>
+            </ul>
+
+            <Link href="/about/" className="text-link mt-8">
+              More about Jennifer
+              <ArrowRight aria-hidden size={18} strokeWidth={2} />
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* 8. Reviews (renders only with real reviews) */}
+      {/* 5. The experience (part of About) */}
+      <section aria-labelledby="exp-heading" className="section bg-accent-tint">
+        <div className="container-x">
+          <SectionHead
+            id="exp-heading"
+            eyebrow="The Experience"
+            title="Four steps. No wasted time."
+            link={{ href: "/about/#experience", label: "See how it works" }}
+          />
+          <div className="mt-10">
+            <ProcessStepsCompact />
+          </div>
+          <p className="mt-8 inline-flex items-center gap-3 rounded-2xl border border-line bg-bg-alt px-5 py-4 text-ink" data-reveal>
+            <Clock aria-hidden size={22} className="shrink-0 text-accent" />
+            <span>
+              <strong className="font-bold">About 1 hr 45 min</strong> for color, highlights &amp; cut.
+            </span>
+          </p>
+        </div>
+      </section>
+
+      {/* 6. Reviews (renders only with real reviews) */}
       <Reviews />
 
-      {/* 9. Visit (renders only once address/hours exist) */}
+      {/* 7. Gallery slider */}
+      <section aria-labelledby="gallery-heading" className="section">
+        <div className="container-x">
+          <SectionHead
+            id="gallery-heading"
+            eyebrow="Gallery"
+            title="Recent work from the chair."
+            link={{ href: "/gallery/", label: "See the gallery" }}
+          />
+          <GallerySlider items={featuredGallery} />
+        </div>
+      </section>
+
+      {/* 8. Visit (renders only once address/hours exist) */}
       {hasStudioDetails() && (
-        <section aria-labelledby="visit-heading" className="section">
-          <div className="container-x grid gap-12 lg:grid-cols-2">
-            <div data-reveal>
-              <p className="eyebrow">Visit</p>
-              <h2 id="visit-heading" className="h2 mt-4">
-                Come see the <em>studio.</em>
-              </h2>
-              <p className="lead mt-6">Bold and modern, like the work.</p>
+        <section aria-labelledby="visit-heading" className="section bg-bg-alt">
+          <div className="container-x">
+            <SectionHead id="visit-heading" eyebrow="Visit" title="Come see the studio." link={{ href: "/contact/", label: "Directions & contact" }} />
+            <div className="mt-10">
+              <StudioDetails />
             </div>
-            <StudioDetails />
           </div>
         </section>
       )}

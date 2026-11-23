@@ -12,6 +12,8 @@
   the answer is confirmed with Jennifer.
 */
 
+import { ig } from "./instagram";
+
 export type Photo = { src: string; label: string; alt: string; width?: number; height?: number };
 export type FaqItem = { q: string; a: string; draft?: boolean };
 
@@ -25,7 +27,6 @@ export type Service = {
   body: string[]; // intro paragraphs (first one carries the local keyword)
   expect: string[]; // "What to expect"
   forWho: string[]; // "Who it's for" bullets
-  highlight?: string; // "Jennifer's favorite"
   duration?: string; // shown only if site.showPrices
   price?: string; // shown only if site.showPrices
   image: Photo;
@@ -45,7 +46,6 @@ export const services: Service[] = [
     metaDescription:
       "Custom hair color by Jennifer Bauduin, a hair designer with 35 years of experience. Grey coverage, shade changes and color that grows out beautifully.",
     short: "Custom color built around your skin tone, your natural shade and the way you actually live.",
-    highlight: "Jennifer's favorite",
     body: [
       "Color is where Jennifer comes alive. After 35 years behind the chair, it is still her favorite part of the job: finding the shade that brightens your skin, clears up your eyes and looks like your hair grew that way. Every color service at Beauty JB{inCity} starts with your natural hair, not a swatch book.",
       "Whether you want to cover grey, warm up, cool down, go richer or go bolder, the formula is built for you and only you. The goal is color that looks deliberate on day one and still looks good weeks later, as it grows out.",
@@ -61,7 +61,7 @@ export const services: Service[] = [
       "Refreshing color that has faded or turned brassy",
       "Anyone who wants color that grows out gracefully",
     ],
-    image: ph("PHOTO: Hair color result", "Rich custom hair color by Beauty JB"),
+    image: ig.copperRedColor,
     beforeAfter: [
       {
         before: ph("BEFORE: Color client", "Client hair before a custom color service"),
@@ -108,7 +108,7 @@ export const services: Service[] = [
       "Bringing depth back to over-lightened hair",
       "Low-maintenance dimension between visits",
     ],
-    image: ph("PHOTO: Highlights & lowlights", "Dimensional highlights and lowlights by Beauty JB"),
+    image: ig.brunetteToBlondeBalayage,
     beforeAfter: [
       {
         before: ph("BEFORE: Highlights client", "Client hair before highlights and lowlights"),
@@ -154,7 +154,7 @@ export const services: Service[] = [
       "Wavy and curly hair that should be cut the way it actually lives",
       "Anyone ready for a change, or a better version of what they have",
     ],
-    image: ph("PHOTO: Razor / texture cut", "Razor and texture haircut by Beauty JB"),
+    image: ig.angledBob,
     beforeAfter: [
       {
         before: ph("BEFORE: Cut client", "Client hair before a razor and texture cut"),
@@ -201,7 +201,7 @@ export const services: Service[] = [
       "Curls you'd like to soften, not erase",
       "Anyone who wants an easier morning routine",
     ],
-    image: ph("PHOTO: Brazilian straightening result", "Smooth, shiny hair after Brazilian straightening by Beauty JB"),
+    image: ig.sleekBlondeStraight,
     beforeAfter: [
       {
         before: ph("BEFORE: Straightening client", "Frizzy hair before Brazilian straightening"),

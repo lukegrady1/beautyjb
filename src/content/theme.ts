@@ -5,9 +5,9 @@
   Keep these hex values in sync with the :root tokens in globals.css.
 */
 export const theme = {
-  bg: "#FFFFFF",
-  ink: "#141214",
-  inkSoft: "#5A5558",
+  bg: "#F2EDE4",
+  ink: "#1A1A1A",
+  inkSoft: "#595955",
   accent: "#6E1423",
   gold: "#B8975A",
 };

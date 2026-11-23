@@ -3,6 +3,10 @@
   arrive, put them in /public/images/... (descriptive file names help SEO)
   and fill in src, width and height.
 */
+import { ig, igWork } from "./instagram";
+import { work } from "./photos";
+import type { Photo } from "./services";
+
 export type GalleryCategory = "color" | "cuts" | "before-after" | "weddings";
 export type GalleryItem = {
   src: string;
@@ -21,26 +25,56 @@ export const galleryCategories: { id: GalleryCategory | "all"; label: string }[]
   { id: "weddings", label: "Weddings" },
 ];
 
-const item = (category: GalleryCategory, label: string, alt: string, tall = false): GalleryItem => ({
-  src: "",
-  label,
-  alt,
+const fromPhoto = (category: GalleryCategory, p: Photo): GalleryItem => ({
+  src: p.src,
+  label: p.label,
+  alt: p.alt,
   category,
-  width: 800,
-  height: tall ? 1100 : 900,
+  width: p.width ?? 4,
+  height: p.height ?? 5,
 });
 
-export const gallery: GalleryItem[] = [
-  item("color", "PHOTO: Color 01", "Warm custom hair color by Beauty JB", true),
-  item("cuts", "PHOTO: Razor cut 01", "Textured razor cut by Beauty JB"),
-  item("before-after", "PHOTO: Before & after 01", "Hair color before and after by Beauty JB"),
-  item("weddings", "PHOTO: Bridal updo 01", "Bridal updo with soft curls by Beauty JB", true),
-  item("color", "PHOTO: Highlights 01", "Soft highlights and lowlights by Beauty JB"),
-  item("cuts", "PHOTO: Texture cut 01", "Texture haircut cut dry by Beauty JB", true),
-  item("before-after", "PHOTO: Before & after 02", "Highlights before and after by Beauty JB", true),
-  item("weddings", "PHOTO: Bridesmaid curls", "Bridesmaid curls by Beauty JB"),
-  item("color", "PHOTO: Color 02", "Rich brunette hair color by Beauty JB"),
-  item("cuts", "PHOTO: Razor cut 02", "Razor-cut layers by Beauty JB"),
-  item("weddings", "PHOTO: Low chignon", "Low chignon wedding updo by Beauty JB", true),
-  item("before-after", "PHOTO: Before & after 03", "Brazilian straightening before and after by Beauty JB"),
+/* Real photos only: the Drive wedding set plus client work from Instagram.
+   Filter chips for empty categories hide themselves. */
+const driveWeddings: GalleryItem[] = [
+  fromPhoto("weddings", work.pearlPins),
+  fromPhoto("weddings", work.ceremony),
+  fromPhoto("weddings", work.braidedCrown),
+  fromPhoto("weddings", work.brideFamily),
+  fromPhoto("weddings", work.chignon),
+  fromPhoto("weddings", work.braidSide),
+  fromPhoto("weddings", work.pearlPinsMirror),
+];
+
+/* Round-robin the categories so the "All" view reads as a mix, not in blocks. */
+function interleave(...lists: GalleryItem[][]): GalleryItem[] {
+  const out: GalleryItem[] = [];
+  for (let i = 0; i < Math.max(...lists.map((l) => l.length)); i++) {
+    for (const l of lists) if (l[i]) out.push(l[i]);
+  }
+  return out;
+}
+
+const igBy = (c: GalleryCategory) => igWork.filter((p) => p.category === c).map((p) => fromPhoto(c, p));
+
+export const gallery: GalleryItem[] = interleave(
+  igBy("color"),
+  [...driveWeddings, ...igBy("weddings")],
+  igBy("cuts"),
+);
+
+/** A mixed, hand-picked set for the homepage slider. */
+export const featuredGallery: GalleryItem[] = [
+  fromPhoto("color", ig.brunetteToBlondeBalayage),
+  fromPhoto("weddings", work.braidedCrown),
+  fromPhoto("cuts", ig.angledBob),
+  fromPhoto("color", ig.copperRedColor),
+  fromPhoto("weddings", ig.updoJeweledPins),
+  fromPhoto("color", ig.icyBlondeHighlights),
+  fromPhoto("cuts", ig.layeredBobAshBlonde),
+  fromPhoto("weddings", ig.braidedUpdo),
+  fromPhoto("color", ig.ashHighlightsOnBob),
+  fromPhoto("cuts", ig.bluntBob),
+  fromPhoto("weddings", work.pearlPins),
+  fromPhoto("color", ig.goldenBlondeColor),
 ];

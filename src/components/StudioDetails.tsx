@@ -2,7 +2,7 @@ import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import { site } from "@/content/site.config";
 import { addressLines, directionsUrl, email, formatTime, mapQuery, phone, telHref } from "@/lib/site";
 import { Button } from "./Button";
-import { MapFacade } from "./MapFacade";
+import { MapEmbed } from "./MapEmbed";
 
 /*
   Address / hours / phone / email / map. Each piece only renders when its
@@ -14,7 +14,7 @@ export function StudioDetails({ showMap = true }: { showMap?: boolean }) {
     <div className="space-y-8">
       {addressLines.length > 0 && (
         <div className="flex gap-4">
-          <MapPin aria-hidden size={22} strokeWidth={1.5} className="mt-1 shrink-0 text-gold" />
+          <MapPin aria-hidden size={22} strokeWidth={1.5} className="mt-1 shrink-0 text-accent" />
           <div>
             <h3 className="text-[14px] font-semibold uppercase tracking-[0.16em] text-ink">Studio</h3>
             <address className="mt-2 not-italic">
@@ -29,7 +29,7 @@ export function StudioDetails({ showMap = true }: { showMap?: boolean }) {
       )}
       {site.hours.length > 0 && (
         <div className="flex gap-4">
-          <Clock aria-hidden size={22} strokeWidth={1.5} className="mt-1 shrink-0 text-gold" />
+          <Clock aria-hidden size={22} strokeWidth={1.5} className="mt-1 shrink-0 text-accent" />
           <div className="flex-1">
             <h3 className="text-[14px] font-semibold uppercase tracking-[0.16em] text-ink">Hours</h3>
             <dl className="mt-2 max-w-[320px] space-y-1">
@@ -47,7 +47,7 @@ export function StudioDetails({ showMap = true }: { showMap?: boolean }) {
       )}
       {phone && (
         <div className="flex gap-4">
-          <Phone aria-hidden size={22} strokeWidth={1.5} className="mt-1 shrink-0 text-gold" />
+          <Phone aria-hidden size={22} strokeWidth={1.5} className="mt-1 shrink-0 text-accent" />
           <div>
             <h3 className="text-[14px] font-semibold uppercase tracking-[0.16em] text-ink">Call or text</h3>
             <a href={telHref(phone)} className="prose-link mt-2 inline-block">
@@ -58,7 +58,7 @@ export function StudioDetails({ showMap = true }: { showMap?: boolean }) {
       )}
       {email && (
         <div className="flex gap-4">
-          <Mail aria-hidden size={22} strokeWidth={1.5} className="mt-1 shrink-0 text-gold" />
+          <Mail aria-hidden size={22} strokeWidth={1.5} className="mt-1 shrink-0 text-accent" />
           <div>
             <h3 className="text-[14px] font-semibold uppercase tracking-[0.16em] text-ink">Email</h3>
             <a href={`mailto:${email}`} className="prose-link mt-2 inline-block break-all">
@@ -68,7 +68,7 @@ export function StudioDetails({ showMap = true }: { showMap?: boolean }) {
         </div>
       )}
       {!any && <p>Studio address, hours and phone are coming soon. In the meantime, send a request and Jennifer will reach out.</p>}
-      {showMap && <MapFacade query={mapQuery} />}
+      {showMap && <MapEmbed query={mapQuery} />}
       {directionsUrl && (
         <Button href={directionsUrl} variant="secondary" arrow>
           Get Directions

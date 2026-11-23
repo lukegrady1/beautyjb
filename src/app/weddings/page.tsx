@@ -9,9 +9,9 @@ import { PackageCard } from "@/components/PackageCard";
 import { Photo } from "@/components/Photo";
 import { PressRow } from "@/components/PressRow";
 import { delay } from "@/lib/reveal";
-import { WeddingInquiryForm } from "@/components/WeddingInquiryForm";
+import { GhlForm } from "@/components/GhlForm";
 import { published, weddingFaq } from "@/content/faq";
-import { photos } from "@/content/photos";
+import { photos, work } from "@/content/photos";
 import { site } from "@/content/site.config";
 import { weddings } from "@/content/weddings";
 import { faqSchema, serviceSchema } from "@/lib/schema";
@@ -54,9 +54,19 @@ export default function WeddingsPage() {
               Start Planning
             </a>
           </div>
-          <div className="relative mx-auto mt-14 max-w-[960px]">
-            <div aria-hidden className="arch absolute inset-0 translate-x-3 translate-y-3 border border-gold" />
-            <Photo photo={weddings.heroImage} priority className="arch relative aspect-[4/5] sm:aspect-[16/10]" sizes="(min-width: 1024px) 960px, 100vw" />
+          {/* Portrait photos, so portrait frames: three tiles, middle one raised. */}
+          <div className="mx-auto mt-14 grid max-w-[1000px] grid-cols-2 items-start gap-3 sm:grid-cols-3 sm:gap-5">
+            {[work.pearlPins, weddings.heroImage, work.ceremony].map((photo, i) => (
+              <Photo
+                key={photo.src}
+                photo={photo}
+                priority={i === 1}
+                className={`placeholder-tile aspect-[3/4] rounded-[1.5rem] border border-line shadow-lift sm:rounded-[2rem] [&_img]:object-top ${
+                  i === 1 ? "sm:-mt-6" : "sm:mt-6"
+                } ${i === 2 ? "hidden sm:block" : ""}`}
+                sizes="(min-width: 1024px) 330px, (min-width: 640px) 33vw, 50vw"
+              />
+            ))}
           </div>
         </div>
       </section>
@@ -101,10 +111,16 @@ export default function WeddingsPage() {
               { icon: Building2, title: "In the Studio", text: "Get ready together in the studio: calm, unhurried and set up for the whole party.", photo: photos.inStudio },
               { icon: Car, title: "At Your Venue", text: `We come to the church or venue. ${weddings.travelNote}`, photo: photos.atVenue },
             ].map((p, i) => (
-              <div key={p.title} className="card overflow-hidden" data-reveal style={delay(i)}>
-                <Photo photo={p.photo} className="aspect-[16/10]" sizes="(min-width: 768px) 50vw, 100vw" />
-                <div className="p-7">
-                  <p.icon aria-hidden size={26} strokeWidth={1.5} className="text-gold" />
+              <div key={p.title} className="card grid overflow-hidden sm:grid-cols-[0.9fr_1.1fr]" data-reveal style={delay(i)}>
+                <Photo
+                  photo={p.photo}
+                  className="placeholder-tile aspect-[4/5] sm:aspect-auto sm:h-full sm:min-h-[340px] [&_img]:object-top"
+                  sizes="(min-width: 768px) 25vw, (min-width: 640px) 45vw, 100vw"
+                />
+                <div className="self-center p-6 sm:p-7">
+                  <span className="icon-dot">
+                    <p.icon aria-hidden size={20} strokeWidth={1.75} />
+                  </span>
                   <h3 className="h3 mt-4 !text-[26px]">{p.title}</h3>
                   <p className="mt-2">{p.text}</p>
                 </div>
@@ -123,11 +139,25 @@ export default function WeddingsPage() {
               One day, <em>everyone</em> ready.
             </h2>
           </div>
-          <div className="mt-12 grid gap-5 lg:grid-cols-3">
-            {weddings.packages.map((p, i) => (
-              <PackageCard key={p.name} pkg={p} featured={i === 1} style={delay(i)} />
-            ))}
-          </div>
+          {weddings.packagesComingSoon ? (
+            <div className="card mx-auto mt-12 max-w-[640px] p-8 text-center sm:p-10" data-reveal>
+              <span className="chip">Coming soon</span>
+              <h3 className="h3 mt-5 !text-[26px]">Package details &amp; pricing are on the way.</h3>
+              <p className="mx-auto mt-3 max-w-[460px]">
+                In the meantime, tell us about your day and Jennifer will put together the right plan and quote for you and
+                your party.
+              </p>
+              <a href="#inquire" className="btn btn-primary mt-7">
+                Ask About Pricing
+              </a>
+            </div>
+          ) : (
+            <div className="mt-12 grid gap-5 lg:grid-cols-3">
+              {weddings.packages.map((p, i) => (
+                <PackageCard key={p.name} pkg={p} featured={i === 1} style={delay(i)} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -149,7 +179,7 @@ export default function WeddingsPage() {
       <PressRow />
 
       {/* Inquiry form */}
-      <section id="inquire" aria-labelledby="inquire-heading" className="section bg-bg-alt">
+      <section id="inquire" aria-labelledby="inquire-heading" className="section scroll-mt-20 bg-bg-alt md:scroll-mt-24">
         <div className="container-x grid gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-4" data-reveal>
             <p className="eyebrow">Inquire</p>
@@ -159,7 +189,7 @@ export default function WeddingsPage() {
             <p className="lead mt-6">Share the details and Jennifer will reach out to talk through availability and plans.</p>
           </div>
           <div className="card p-6 sm:p-10 lg:col-span-8">
-            <WeddingInquiryForm />
+            <GhlForm form="wedding" />
           </div>
         </div>
       </section>

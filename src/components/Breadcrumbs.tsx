@@ -24,7 +24,7 @@ export function Breadcrumbs({ items, onInk = false }: { items: Crumb[]; onInk?: 
                     <Link href={c.path} className={`transition-colors ${onInk ? "hover:text-gold-soft" : "hover:text-accent"}`}>
                       {c.name}
                     </Link>
-                    <ChevronRight aria-hidden size={14} strokeWidth={1.5} className="text-gold" />
+                    <ChevronRight aria-hidden size={14} strokeWidth={1.5} className="text-accent" />
                   </>
                 )}
               </li>

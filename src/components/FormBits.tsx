@@ -52,8 +52,8 @@ export function Honeypot() {
 
 export function FormSuccess({ children }: { children: React.ReactNode }) {
   return (
-    <div role="status" className="card flex flex-col items-start gap-4 border-gold p-8">
-      <CheckCircle2 aria-hidden size={32} strokeWidth={1.5} className="text-gold" />
+    <div role="status" className="card flex flex-col items-start gap-4 p-8">
+      <CheckCircle2 aria-hidden size={32} strokeWidth={1.5} className="text-accent" />
       <p className="font-display text-[26px] leading-tight text-ink">{children}</p>
     </div>
   );

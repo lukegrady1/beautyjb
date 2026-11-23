@@ -39,8 +39,8 @@ export function BeforeAfterSlider({
         After
       </span>
 
-      <div aria-hidden className="pointer-events-none absolute inset-y-0 w-px bg-gold" style={{ left: `${pos}%` }}>
-        <div className="absolute top-1/2 left-1/2 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-gold bg-bg text-gold">
+      <div aria-hidden className="pointer-events-none absolute inset-y-0 w-0.5 bg-bg" style={{ left: `${pos}%` }}>
+        <div className="absolute top-1/2 left-1/2 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-bg-alt shadow-lift text-accent">
           <ChevronLeft size={16} strokeWidth={1.5} />
           <ChevronRight size={16} strokeWidth={1.5} />
         </div>

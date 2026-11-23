@@ -60,7 +60,7 @@ export function Lightbox({
   }, [index, n, onClose, onIndex]);
 
   const item = items[index];
-  const btn = "inline-flex h-12 w-12 items-center justify-center rounded-full border border-gold/70 text-on-ink transition-colors hover:bg-gold hover:text-ink";
+  const btn = "inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/40 text-on-ink transition-colors hover:bg-white hover:text-ink";
 
   return (
     <div

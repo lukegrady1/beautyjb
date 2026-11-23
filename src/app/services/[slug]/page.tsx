@@ -58,7 +58,7 @@ export default async function ServiceDetail({ params }: Params) {
           { name: "Services", path: "/services/" },
           { name: s.name, path },
         ]}
-        eyebrow={s.highlight ?? "Services"}
+        eyebrow="Services"
         title={
           <>
             {s.h1}
@@ -99,7 +99,7 @@ export default async function ServiceDetail({ params }: Params) {
               Four steps. <em>No</em> wasted time.
             </h2>
             <div className="mt-8">
-              <TextLink href="/experience/">How the Beauty JB experience works</TextLink>
+              <TextLink href="/about/#experience">How the Beauty JB experience works</TextLink>
             </div>
           </div>
           <div className="max-w-[640px] space-y-5 lg:col-span-7" data-reveal>

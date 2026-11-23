@@ -2,14 +2,15 @@ import type { Photo as PhotoT } from "@/content/services";
 import { Photo } from "./Photo";
 
 /*
-  Beauty JB's signature shape: an arched photo with a 1px gold border offset
-  12px behind it (double-frame effect). Optional chip on the lower-left.
+  Rounded photo frame (Stevie Cain pattern): 2rem corners, hairline border,
+  soft lift. Optional pill badge overlapping the lower-left corner.
+  (Name kept from the earlier arched design so pages don't change.)
 */
 export function ArchFrame({
   photo,
   chip,
   priority,
-  sizes = "(min-width: 1024px) 420px, 90vw",
+  sizes = "(min-width: 1024px) 40vw, 28rem",
   className = "",
   aspect = "aspect-[4/5]",
 }: {
@@ -22,13 +23,13 @@ export function ArchFrame({
 }) {
   return (
     <div className={`relative ${className}`}>
-      <div aria-hidden className="arch absolute inset-0 translate-x-3 translate-y-3 border border-gold" />
-      <Photo photo={photo} priority={priority} sizes={sizes} className={`arch relative ${aspect}`} />
-      {chip && (
-        <div className="absolute bottom-6 left-0 -translate-x-2 border border-line bg-bg px-4 py-3 text-[14px] font-medium text-ink sm:-translate-x-6">
-          {chip}
-        </div>
-      )}
+      <Photo
+        photo={photo}
+        priority={priority}
+        sizes={sizes}
+        className={`placeholder-tile ${aspect} rounded-[2rem] border border-line shadow-lift`}
+      />
+      {chip && <div className="chip absolute bottom-5 left-4 shadow-lift sm:-left-5">{chip}</div>}
     </div>
   );
 }

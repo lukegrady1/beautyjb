@@ -9,8 +9,8 @@ export function ServiceRow({ service, index }: { service: Service; index: number
   const price = site.showPrices && isSet(service.price) ? service.price : null;
   const duration = site.showPrices && isSet(service.duration) ? service.duration : null;
   return (
-    <li className="grid gap-4 border-b border-gold/60 py-10 md:grid-cols-[80px_1fr_auto] md:gap-8" data-reveal>
-      <span aria-hidden className="font-display text-[28px] italic leading-none text-accent">
+    <li className="grid gap-4 border-b border-line py-10 md:grid-cols-[80px_1fr_auto] md:gap-8" data-reveal>
+      <span aria-hidden className="text-[28px] font-bold leading-none text-accent">
         {String(index + 1).padStart(2, "0")}
       </span>
       <div>
@@ -20,7 +20,6 @@ export function ServiceRow({ service, index }: { service: Service; index: number
               {service.name}
             </Link>
           </h3>
-          {service.highlight && <span className="chip">{service.highlight}</span>}
         </div>
         <p className="mt-3 max-w-[560px]">{service.short}</p>
         <Link href={`/services/${service.slug}/`} className="text-link mt-4" aria-label={`Learn more about ${service.name}`}>

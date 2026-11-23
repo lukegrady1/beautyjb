@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Bodoni_Moda, Manrope } from "next/font/google";
+import { Manrope } from "next/font/google";
 import "./globals.css";
 import { site } from "@/content/site.config";
 import { theme } from "@/content/theme";
@@ -11,16 +11,10 @@ import { RevealObserver } from "@/components/RevealObserver";
 import { salonSchema } from "@/lib/schema";
 import { inCity, siteUrl } from "@/lib/site";
 
-const bodoni = Bodoni_Moda({
-  variable: "--font-bodoni",
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-  axes: ["opsz"],
-  display: "swap",
-});
-
-const manrope = Manrope({
-  variable: "--font-manrope",
+/* Manrope everywhere, same as the Stevie Cain build: headings carry weight
+   and tight tracking, body text stays crisp on a phone. */
+const sans = Manrope({
+  variable: "--font-sans-family",
   subsets: ["latin"],
   display: "swap",
 });
@@ -51,14 +45,14 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     never hide content for visitors without JavaScript.
   */
   return (
-    <html lang="en" className={`${bodoni.variable} ${manrope.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html lang="en" className={`${sans.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
       </head>
       <body className="min-h-dvh">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:rounded-pill focus:bg-ink focus:px-5 focus:py-3 focus:text-on-ink"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:bg-ink focus:rounded-full focus:px-5 focus:py-3 focus:text-on-ink"
         >
           Skip to content
         </a>

@@ -3,57 +3,66 @@
 /*
   Beauty JB design tokens.
 
-  Bold, modern, editorial: white does most of the work, deep wine red is trim
-  and emphasis, gold is a 1px hairline accent only. Every color in the site
-  comes from these variables. Components never hard-code a hex value, so the
-  whole palette swaps here (or via data-theme="blue" on <html>).
+  Built on the Stevie Cain Hair Care system (same agency DNA): soft beige
+  ground, a light surface for cards, black for type, one accent that does
+  every accent job, Manrope for everything, rounded 24px cards with a soft
+  lift, pill buttons, small tracked uppercase eyebrows.
 
-  TODO: final palette. Keep src/content/theme.ts in sync (OG images, manifest).
+  Beauty JB's accent is deep wine where Stevie's is sage. Every colour comes
+  from these variables; components never hard-code a hex value, so the
+  palette swaps here (or via data-theme="blue" on <html>).
+
+  Keep src/content/theme.ts in sync (OG images, manifest).
 */
 :root {
   /* Base */
-  --bg: #ffffff;
-  --bg-alt: #f7f6f4;
-  --ink: #141214;
-  --ink-soft: #5a5558;
-  --line: #e7e3e0;
+  --bg: #f2ede4; /* beige ground */
+  --bg-alt: #faf8f3; /* surface: cards and alternate bands */
+  --bg-deep: #e7e0d3;
+  --ink: #1a1a1a;
+  --ink-soft: #595955;
+  --line: #d9d1c2;
 
-  /* Accent: deep wine */
+  /* Accent: deep wine. `accent` is buttons/labels (white text passes AA),
+     `accent-hover` is hover and the dark bands, tints are surfaces. */
   --accent: #6e1423;
   --accent-hover: #561019;
-  --accent-tint: #f6ecee;
+  --accent-deep: #4a0d17;
+  --accent-light: #ecd9da;
+  --accent-tint: #f5ecea;
 
-  /* Metallics: hairlines, small icons, numerals only */
+  /* Metallic detail, used sparingly */
   --gold: #b8975a;
-  --gold-soft: #d9c49a;
+  --gold-soft: #e0caa0;
   --silver: #a7a9ac;
 
   --on-accent: #ffffff;
-  --on-ink: #f4f1ee;
-  /* Secondary text on ink sections (AA on --ink) */
-  --on-ink-soft: #b9b2b5;
+  --on-ink: #f2ede4;
+  --on-ink-soft: #e2d3d0;
 
-  --r-sm: 4px;
-  --r-pill: 999px;
-  --r-arch: 999px 999px 4px 4px;
+  --shadow-lift: 0 1px 2px rgb(26 26 26 / 0.04), 0 10px 28px -14px rgb(26 26 26 / 0.14);
 }
 
 /* Backup palette (client's 2nd option). Enable with data-theme="blue" on <html>. */
 [data-theme="blue"] {
   --accent: #1b2a4a;
   --accent-hover: #121d36;
+  --accent-deep: #0f1830;
+  --accent-light: #d6dcea;
   --accent-tint: #eceff5;
 }
 
-/* Map tokens into Tailwind utilities (bg-accent, text-ink, border-line …). */
 @theme inline {
   --color-bg: var(--bg);
   --color-bg-alt: var(--bg-alt);
+  --color-bg-deep: var(--bg-deep);
   --color-ink: var(--ink);
   --color-ink-soft: var(--ink-soft);
   --color-line: var(--line);
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
+  --color-accent-deep: var(--accent-deep);
+  --color-accent-light: var(--accent-light);
   --color-accent-tint: var(--accent-tint);
   --color-gold: var(--gold);
   --color-gold-soft: var(--gold-soft);
@@ -62,11 +71,14 @@
   --color-on-ink: var(--on-ink);
   --color-on-ink-soft: var(--on-ink-soft);
 
-  --font-display: var(--font-bodoni), "Bodoni Moda", Didot, "Times New Roman", serif;
-  --font-sans: var(--font-manrope), "Manrope", system-ui, sans-serif;
+  --font-display: var(--font-sans-family), "Manrope", system-ui, sans-serif;
+  --font-sans: var(--font-sans-family), "Manrope", system-ui, sans-serif;
 
-  --radius-sm: var(--r-sm);
-  --radius-pill: var(--r-pill);
+  --shadow-lift: var(--shadow-lift);
+
+  /* rounded-sm = photo tiles (Stevie's rounded-2xl), rounded-pill = pills */
+  --radius-sm: 1rem;
+  --radius-pill: 9999px;
 
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 }
@@ -74,7 +86,7 @@
 html {
   scroll-behavior: smooth;
   color-scheme: light;
-  scroll-padding-top: 6.5rem;
+  scroll-padding-top: 7rem;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -88,7 +100,7 @@ body {
   color: var(--ink-soft);
   font-family: var(--font-sans);
   font-size: 16px;
-  line-height: 1.7;
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -100,67 +112,64 @@ body {
 }
 
 ::selection {
-  background: var(--accent-tint);
+  background: var(--accent-light);
   color: var(--ink);
 }
 
 :focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 3px solid var(--accent);
   outline-offset: 3px;
 }
 
-/* ---------- Type scale ---------- */
 @layer components {
+  /* ---------- Type scale (matches Stevie: t-display / t-headline) ---------- */
   .h1,
   .h2,
   .h3 {
     font-family: var(--font-display);
+    font-weight: 600;
     color: var(--ink);
     text-wrap: balance;
   }
   .h1 {
-    font-size: 44px;
-    line-height: 1.04;
+    font-size: 2.6rem;
+    line-height: 1.02;
     letter-spacing: -0.02em;
-    font-weight: 600;
   }
   .h2 {
-    font-size: 34px;
+    font-size: 1.875rem;
     line-height: 1.1;
-    letter-spacing: -0.01em;
-    font-weight: 500;
+    letter-spacing: -0.015em;
   }
   .h3 {
-    font-size: 20px;
+    font-size: 1.25rem;
     line-height: 1.25;
-    font-weight: 600;
+    letter-spacing: -0.01em;
   }
-  @media (min-width: 768px) {
+  @media (min-width: 640px) {
     .h1 {
-      font-size: 60px;
+      font-size: 3rem;
     }
     .h2 {
-      font-size: 44px;
+      font-size: 2.25rem;
     }
   }
   @media (min-width: 1024px) {
     .h1 {
-      font-size: 72px;
-      line-height: 1.02;
+      font-size: 4.25rem;
     }
     .h2 {
-      font-size: 52px;
-      line-height: 1.08;
+      font-size: 3rem;
     }
     .h3 {
-      font-size: 24px;
+      font-size: 1.375rem;
     }
   }
-  /* Italic emphasis word inside a headline */
+  /* Emphasis word inside a headline: accent colour, no italics. */
   .h1 em,
   .h2 em,
   .h3 em {
-    font-style: italic;
+    font-style: normal;
     color: var(--accent);
   }
   .on-ink .h1,
@@ -174,33 +183,26 @@ body {
   }
 
   .lead {
-    font-size: 18px;
+    font-size: 1.125rem;
     line-height: 1.6;
   }
-  @media (min-width: 768px) {
+  @media (min-width: 640px) {
     .lead {
-      font-size: 20px;
+      font-size: 1.25rem;
     }
   }
 
   .eyebrow {
     display: inline-flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
     font-family: var(--font-sans);
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 600;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.16em;
     line-height: 1.4;
     text-transform: uppercase;
     color: var(--accent);
-  }
-  .eyebrow::before {
-    content: "";
-    width: 24px;
-    height: 1px;
-    background: var(--gold);
-    flex: none;
   }
   .on-ink .eyebrow {
     color: var(--gold-soft);
@@ -209,26 +211,27 @@ body {
   /* ---------- Layout ---------- */
   .container-x {
     width: 100%;
-    max-width: 1200px;
+    max-width: 72rem; /* Stevie's max-w-6xl */
     margin-inline: auto;
-    padding-inline: 24px;
+    padding-inline: 1rem;
   }
-  @media (min-width: 768px) {
+  @media (min-width: 640px) {
     .container-x {
-      padding-inline: 32px;
+      padding-inline: 1.5rem;
     }
   }
   .section {
-    padding-block: 72px;
+    padding-block: 4rem;
   }
-  @media (min-width: 1024px) {
+  @media (min-width: 640px) {
     .section {
-      padding-block: 112px;
+      padding-block: 6rem;
     }
   }
 
+  /* Dark band: deep wine, like Stevie's sage-deep footer. */
   .on-ink {
-    background: var(--ink);
+    background: var(--accent-deep);
     color: var(--on-ink-soft);
   }
 
@@ -237,20 +240,23 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    min-height: 48px;
-    padding: 14px 28px;
-    border-radius: var(--r-pill);
+    gap: 0.5rem;
+    min-height: 3.25rem;
+    padding: 0 1.5rem;
+    border-radius: 9999px;
     font-family: var(--font-sans);
-    font-size: 15px;
+    font-size: 1rem;
     font-weight: 600;
-    letter-spacing: 0.02em;
-    line-height: 1.2;
+    line-height: 1;
     white-space: nowrap;
     transition:
       background-color 200ms var(--ease-out),
       color 200ms var(--ease-out),
-      border-color 200ms var(--ease-out);
+      transform 200ms var(--ease-out),
+      box-shadow 200ms var(--ease-out);
+  }
+  .btn:active {
+    transform: translateY(1px);
   }
   .btn svg {
     transition: transform 200ms var(--ease-out);
@@ -265,45 +271,58 @@ body {
   .btn-primary:hover {
     background: var(--accent-hover);
   }
+  .btn-dark {
+    background: var(--ink);
+    color: var(--bg);
+  }
+  .btn-dark:hover {
+    background: #000;
+  }
   .btn-secondary {
-    border: 1px solid var(--ink);
+    background: transparent;
     color: var(--ink);
+    box-shadow: inset 0 0 0 1.5px var(--ink);
   }
   .btn-secondary:hover {
     background: var(--ink);
     color: var(--bg);
   }
+  .on-ink .btn-primary {
+    background: var(--bg);
+    color: var(--accent-deep);
+  }
+  .on-ink .btn-primary:hover {
+    background: #fff;
+  }
   .on-ink .btn-secondary {
-    border-color: var(--gold);
-    color: var(--on-ink);
+    color: #fff;
+    box-shadow: inset 0 0 0 1.5px rgb(255 255 255 / 0.55);
   }
   .on-ink .btn-secondary:hover {
-    background: var(--gold);
-    color: var(--ink);
+    background: rgb(255 255 255 / 0.1);
+    color: #fff;
   }
   .btn-ghost {
     color: var(--ink);
     padding-inline: 12px;
   }
+  .btn-sm {
+    min-height: 2.75rem;
+    padding: 0 1.15rem;
+    font-size: 0.925rem;
+  }
 
-  /* Text link with an arrow; underline grows from the left in accent. */
+  /* Text link with arrow (Stevie: semibold ink, accent on hover). */
   .text-link {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     font-weight: 600;
     color: var(--ink);
-    background-image: linear-gradient(var(--accent), var(--accent));
-    background-repeat: no-repeat;
-    background-position: 0 100%;
-    background-size: 0% 1px;
-    padding-bottom: 2px;
-    transition:
-      background-size 300ms var(--ease-out),
-      color 200ms;
+    border-radius: 4px;
+    transition: color 200ms;
   }
   .text-link:hover {
-    background-size: 100% 1px;
     color: var(--accent);
   }
   .text-link svg {
@@ -314,101 +333,151 @@ body {
   }
   .on-ink .text-link {
     color: var(--on-ink);
-    background-image: linear-gradient(var(--gold), var(--gold));
   }
   .on-ink .text-link:hover {
     color: var(--gold-soft);
   }
 
-  /* Body links inside prose */
   .prose-link {
-    color: var(--accent);
+    color: var(--ink);
+    font-weight: 600;
     text-decoration: underline;
-    text-underline-offset: 3px;
-    text-decoration-thickness: 1px;
+    text-decoration-color: color-mix(in srgb, var(--accent) 60%, transparent);
+    text-underline-offset: 4px;
+  }
+  .prose-link:hover {
+    color: var(--accent);
   }
 
   /* ---------- Cards ---------- */
   .card {
+    background: var(--bg-alt);
     border: 1px solid var(--line);
-    border-radius: var(--r-sm);
-    background: var(--bg);
+    border-radius: 1.5rem;
+    box-shadow: var(--shadow-lift);
     transition:
-      border-color 250ms var(--ease-out),
-      transform 250ms var(--ease-out);
+      transform 250ms var(--ease-out),
+      box-shadow 250ms var(--ease-out);
   }
   .card-hover:hover {
-    border-color: var(--gold);
     transform: translateY(-2px);
+    box-shadow:
+      0 1px 2px rgb(26 26 26 / 0.05),
+      0 18px 36px -16px rgb(26 26 26 / 0.2);
   }
 
+  /* Small pill badge (Stevie's rating chip). */
   .chip {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 4px 12px;
-    border-radius: var(--r-pill);
-    background: var(--accent-tint);
-    color: var(--accent);
-    font-size: 12px;
+    padding: 6px 14px;
+    border-radius: 9999px;
+    border: 1px solid var(--line);
+    background: var(--bg-alt);
+    color: var(--ink);
+    font-size: 0.875rem;
     font-weight: 600;
-    letter-spacing: 0.04em;
   }
 
-  /* Short centered gold rule used as a divider between sections */
+  /* Round icon badge used on value cards. */
+  .icon-dot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    flex: none;
+    border-radius: 9999px;
+    background: var(--accent-hover);
+    color: var(--bg);
+  }
+
   .gold-rule {
     display: block;
-    width: 80px;
-    height: 1px;
+    width: 64px;
+    height: 2px;
     margin-inline: auto;
-    background: var(--gold);
+    border-radius: 2px;
+    background: var(--accent);
   }
-
-  /* Short red trim under H2s on dark sections */
   .trim-short {
     display: block;
     width: 64px;
-    height: 4px;
-    background: var(--accent);
+    height: 3px;
+    border-radius: 3px;
+    background: var(--gold-soft);
   }
 
-  /* Arched signature frame */
+  /* Rounded photo frame (Stevie: rounded-[2rem] + hairline + lift). */
   .arch {
-    border-radius: var(--r-arch);
+    border-radius: 2rem;
     overflow: hidden;
   }
 
-  /* Outlined oversize numeral ("35") */
   .outline-numeral {
     font-family: var(--font-display);
-    font-weight: 500;
+    font-weight: 700;
     line-height: 0.8;
-    color: transparent;
-    -webkit-text-stroke: 1px var(--gold);
-    letter-spacing: -0.04em;
+    color: var(--accent-light);
+    letter-spacing: -0.05em;
     user-select: none;
+  }
+
+  /* Placeholder hatch so empty photo slots still look designed. */
+  .placeholder-tile {
+    background-color: var(--bg-deep);
+    background-image: repeating-linear-gradient(135deg, transparent 0 14px, rgb(26 26 26 / 0.05) 14px 15px);
+  }
+
+  /* Round arrow over each edge of the home gallery strip. */
+  .slider-arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 9999px;
+    background: rgb(250 248 243 / 0.92);
+    color: var(--ink);
+    box-shadow:
+      var(--shadow-lift),
+      inset 0 0 0 1px var(--line);
+    transform: translateY(-50%);
+    transition:
+      background-color 200ms var(--ease-out),
+      color 200ms var(--ease-out);
+  }
+  .slider-arrow:hover {
+    background: var(--ink);
+    color: var(--bg);
   }
 
   /* Form fields */
   .field {
     display: block;
     width: 100%;
-    min-height: 48px;
-    padding: 12px 14px;
+    min-height: 3.25rem;
+    padding: 12px 16px;
     border: 1px solid var(--line);
-    border-radius: var(--r-sm);
-    background: var(--bg);
+    border-radius: 0.875rem;
+    background: var(--bg-alt);
     color: var(--ink);
     font-size: 16px;
-    transition: border-color 200ms;
+    transition:
+      border-color 200ms,
+      box-shadow 200ms;
   }
   .field:hover {
     border-color: var(--silver);
   }
   .field:focus-visible {
-    outline: 2px solid var(--gold);
-    outline-offset: 1px;
-    border-color: var(--gold);
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-light);
   }
   .field[aria-invalid="true"] {
     border-color: var(--accent);
@@ -426,10 +495,10 @@ body {
 /* Only hide content once JS has confirmed it can reveal it again. */
 .js [data-reveal] {
   opacity: 0;
-  transform: translateY(12px);
+  transform: translateY(18px);
   transition:
-    opacity 400ms var(--ease-out),
-    transform 400ms var(--ease-out);
+    opacity 700ms var(--ease-out),
+    transform 700ms var(--ease-out);
   transition-delay: var(--reveal-delay, 0ms);
 }
 .js [data-reveal].is-visible {
@@ -447,7 +516,6 @@ body {
   }
 }
 
-/* Hide scrollbar on the mobile gallery strip, keep it scrollable */
 .no-scrollbar {
   scrollbar-width: none;
 }

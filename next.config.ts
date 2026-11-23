@@ -2,8 +2,8 @@ import type { NextConfig } from "next";
 
 /*
   Fully static export, same as the other Grady Digital client sites. Vercel
-  (or any static host) serves `out/`. Forms post to a third-party endpoint
-  (NEXT_PUBLIC_FORM_ENDPOINT), so there is no server runtime to maintain.
+  (or any static host) serves `out/`. Forms are GoHighLevel iframes
+  (src/components/GhlForm.tsx), so there is no server runtime to maintain.
 
   www → apex: set beautyjb.com as the primary domain in Vercel > Domains and
   add www.beautyjb.com as a redirect to it.

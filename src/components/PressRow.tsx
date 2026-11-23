@@ -11,7 +11,7 @@ export function PressRow() {
         </h2>
         <ul className="mt-6 flex flex-wrap items-center justify-center gap-x-12 gap-y-4">
           {site.press.map((p) => (
-            <li key={p.name} className="font-display text-[26px] italic text-ink">
+            <li key={p.name} className="font-display text-[26px] font-bold text-ink">
               {p.url ? (
                 <a href={p.url} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-accent">
                   {p.label ?? p.name}

@@ -44,8 +44,11 @@ export skips the image optimizer), then fill in `src`, `width` and `height`.
 
 ## Forms
 
-The Contact and Wedding inquiry forms POST JSON to `NEXT_PUBLIC_FORM_ENDPOINT` (Formspree,
-a GoHighLevel webhook, etc.). They include a honeypot field (`_gotcha`) and no CAPTCHA. See `.env.example`.
+The Contact and Wedding inquiry forms are GoHighLevel forms embedded as iframes
+(`src/components/GhlForm.tsx`, Beauty JB sub-account `rtOQGxd4Ox0VqGZuT8gC`): "Website Contact
+Form" and "Website Wedding Inquiry Form". Fields, required rules, the thank-you message and the
+styling (Advanced > Custom CSS) are edited in GHL, not here. Submissions land as GHL contacts.
+Email notifications and a forms.beautyjb.com branded domain are not set up yet.
 To use an external booking tool instead, set `booking: { type: "external", url }` and every Book button switches to it.
 
 ## Deploy (Vercel)

@@ -33,7 +33,7 @@ export default function WeddingsPage() {
     <>
       <JsonLd
         data={[
-          serviceSchema({ name: "Bridal & Wedding Hair", serviceType: "Bridal hair and makeup", description, path: "/weddings/" }),
+          serviceSchema({ name: "Bridal & Wedding Hair", serviceType: "Bridal hair and makeup", description, path: "/weddings/", image: work.pearlPins }),
           faqSchema(faq),
         ]}
       />

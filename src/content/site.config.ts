@@ -24,7 +24,7 @@ export const site = {
   phone: "(919) 628-6288",
   address: { street: "13200 Falls of Neuse Rd, Suite 47", city: "Raleigh", region: "NC", postal: "27615", country: "US" }, // street + suite confirmed Nov 2026; postal from her Instagram bio
   serviceArea: ["TODO city", "TODO nearby town"], // local SEO copy + schema areaServed
-  geo: { lat: null as number | null, lng: null as number | null },
+  geo: { lat: 35.9403 as number | null, lng: -78.5604 as number | null }, // 13200 Falls of Neuse Rd (Google Maps / OpenStreetMap)
   hours: [] as Hours[], // TODO: studio hours. [{ day: "Tuesday", open: "09:00", close: "17:00" }]; hidden if empty
   booking: { type: "form" as "form" | "external", url: "" }, // TODO: booking method (form vs Vagaro/Square/etc.)
   social: { instagram: "https://www.instagram.com/jenniferbauduinsalon/", facebook: "https://www.facebook.com/hairslayer1976/", googleBusiness: "", googleReview: "", theKnot: "" },

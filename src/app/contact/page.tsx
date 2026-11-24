@@ -3,15 +3,19 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/Button";
 import { GhlForm } from "@/components/GhlForm";
+import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
 import { StudioDetails } from "@/components/StudioDetails";
 import { site } from "@/content/site.config";
+import { webPageSchema } from "@/lib/schema";
 import { pageMetadata } from "@/lib/seo";
 import { bookingIsExternal, inCity } from "@/lib/site";
 
+const metaDescription = `Request a consultation with hair designer Jennifer Bauduin for color, highlights, cuts, Brazilian straightening or wedding hair${inCity}.`;
+
 export const metadata: Metadata = pageMetadata({
   title: `Book an Appointment | ${site.name} Hair Designer${inCity}`,
-  description: `Request a consultation with hair designer Jennifer Bauduin for color, highlights, cuts, Brazilian straightening or wedding hair${inCity}.`,
+  description: metaDescription,
   path: "/contact/",
   absolute: true,
 });
@@ -19,6 +23,7 @@ export const metadata: Metadata = pageMetadata({
 export default function ContactPage() {
   return (
     <>
+      <JsonLd data={webPageSchema({ type: "ContactPage", name: `Contact ${site.name}`, description: metaDescription, path: "/contact/" })} />
       <PageHero
         crumbs={[{ name: "Contact", path: "/contact/" }]}
         eyebrow="Book & contact"

@@ -49,7 +49,7 @@ export default async function ServiceDetail({ params }: Params) {
     <>
       <JsonLd
         data={[
-          serviceSchema({ name: s.name, serviceType: s.name, description: s.metaDescription, path }),
+          serviceSchema({ name: s.name, serviceType: s.name, description: s.metaDescription, path, image: s.image }),
           faqSchema(faq),
         ]}
       />

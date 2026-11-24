@@ -16,14 +16,16 @@ import { delay } from "@/lib/reveal";
 import { experienceFaq, published } from "@/content/faq";
 import { photos, work } from "@/content/photos";
 import { site } from "@/content/site.config";
-import { faqSchema, personSchema } from "@/lib/schema";
+import { faqSchema, personId, personSchema, webPageSchema } from "@/lib/schema";
 import { pageMetadata } from "@/lib/seo";
 import { inCity } from "@/lib/site";
 
 /* About + The Experience, combined (the old /experience/ page now lives at #experience). */
+const metaDescription = `Meet ${site.owner}: ${site.yearsExperience} years behind the chair, a love of color and dry cuts designed for your face shape. See how every appointment works, start to finish.`;
+
 export const metadata: Metadata = pageMetadata({
   title: `About ${site.owner} | ${site.title}${inCity}`,
-  description: `Meet ${site.owner}: ${site.yearsExperience} years behind the chair, a love of color and dry cuts designed for your face shape. See how every appointment works, start to finish.`,
+  description: metaDescription,
   path: "/about/",
 });
 
@@ -32,7 +34,13 @@ const faq = published(experienceFaq);
 export default function AboutPage() {
   return (
     <>
-      <JsonLd data={[personSchema(), faqSchema(faq)]} />
+      <JsonLd
+        data={[
+          webPageSchema({ type: "AboutPage", name: `About ${site.owner}`, description: metaDescription, path: "/about/", about: personId }),
+          personSchema(),
+          faqSchema(faq),
+        ]}
+      />
       <PageHero
         crumbs={[{ name: "About", path: "/about/" }]}
         eyebrow="About"
